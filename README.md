@@ -34,20 +34,32 @@ $python sigmatch.py -s signatures/libcrypt.sig -f bin2 -v
 ==============
 Changelog
 ==============
+
 Version 0.3 (2016-03-28)
+
 +) Support for stripped binary
+
 +) Introduced deep match mode
+
 +) Better ELF parsing (function offsets)
 
 
 Version 0.2 (2016-03-23)
+
 +)Added support for compressed signtaure files
+
 +)Added support to FLIRT functions offset
+
 +)Load multiple signature files
+
 +)More information output (function offset+names)
+
 +)Updated the command line layout and help messages
 
 
 Version 0.1(2016-03-20)
+
 +)First release
 
+
+						
