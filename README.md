@@ -12,7 +12,6 @@ After pyelftools is installed, lscan can be used as a standalone tool
 
 > $python lscan.py options
 
-
 ==============
 Usage
 ==============
@@ -30,10 +29,8 @@ Options:
   -f BINFILE, --file=BINFILE  
                         ELF file
 Example:
-
 $python sigmatch.py -S signatures -f bin1 -v
 $python sigmatch.py -s signatures/libcrypt.sig -f bin2 -v
-
 
 ==============
 Changelog
@@ -51,5 +48,7 @@ Version 0.2 (2016-03-23)
 +)More information output (function offset+names)
 +)Updated the command line layout and help messages
 
+
 Version 0.1(2016-03-20)
 +)First release
+
