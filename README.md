@@ -1,7 +1,6 @@
 # lscan
 lscan is an IDA PRO FLIRT signature matcher on statically linked/stripped binaries
 
-
 ==============
 Install
 ==============
