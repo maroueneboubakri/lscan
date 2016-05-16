@@ -19,7 +19,7 @@ $lscan.py
 
 Options:
 
-  -h, --help            show this help message and exit  
+  -h, --help     show this help message and exit  
   -v, --versbose        Verbose mode  
   -s SIGFILE, --sig=SIGFILE  
                         Signature file						
@@ -27,9 +27,12 @@ Options:
                         Signature folder						
   -f BINFILE, --file=BINFILE  
                         ELF file
-Example:
-$python sigmatch.py -S signatures -f bin1 -v
-$python sigmatch.py -s signatures/libcrypt.sig -f bin2 -v
+
+### Example:
+
+> $python sigmatch.py -S sigdb -f test/bin1 -v
+
+> $python sigmatch.py -s sigdb/libcrypt-2.23.sig -f test/bin2 -v
 
 
 
