@@ -12,6 +12,10 @@ python lscan.py -f bin/bin-libxml2-2.9.1 -s sig/libxml2-2.9.2.sig
 python lscan.py -f bin/bin-libxml2-2.9.1 -s sig/libxml2-2.9.3.sig
 python lscan.py -f bin/bin-libstdc++-4.8.1 -s sig/libstdc++-4.8.1.sig
 python lscan.py -f bin/bin-libstdc++-4.8.1 -s sig/libstdc++-4.9.1.sig
+python lscan.py -f bin/bin-libc-2.12 -s sig/libc-2.12.sig
+python lscan.py -f bin/bin-libc-2.12 -s sig/libc-2.17.sig
+python lscan.py -f bin/bin-libc-2.12 -s sig/libc-2.22.sig
+python lscan.py -f bin/bin-libc-2.12 -s sig/libc-2.23.sig
 python lscan.py -f bin/bin-libpthread-2.12 -s sig/libpthread-2.12.sig
 python lscan.py -f bin/bin-libpthread-2.12 -s sig/libpthread-2.17.sig
 python lscan.py -f bin/bin-libpthread-2.12 -s sig/libpthread-2.22.sig
@@ -40,6 +44,10 @@ python lscan.py -f bin/bin-libxml2-2.9.2 -s sig/libxml2-2.9.2.sig
 python lscan.py -f bin/bin-libxml2-2.9.2 -s sig/libxml2-2.9.3.sig
 python lscan.py -f bin/bin-libstdc++-4.9.1 -s sig/libstdc++-4.8.1.sig
 python lscan.py -f bin/bin-libstdc++-4.9.1 -s sig/libstdc++-4.9.1.sig
+python lscan.py -f bin/bin-libc-2.17 -s sig/libc-2.12.sig
+python lscan.py -f bin/bin-libc-2.17 -s sig/libc-2.17.sig
+python lscan.py -f bin/bin-libc-2.17 -s sig/libc-2.22.sig
+python lscan.py -f bin/bin-libc-2.17 -s sig/libc-2.23.sig
 python lscan.py -f bin/bin-libpthread-2.17 -s sig/libpthread-2.12.sig
 python lscan.py -f bin/bin-libpthread-2.17 -s sig/libpthread-2.17.sig
 python lscan.py -f bin/bin-libpthread-2.17 -s sig/libpthread-2.22.sig
@@ -68,6 +76,10 @@ python lscan.py -f bin/bin-libxml2-2.9.3 -s sig/libxml2-2.9.2.sig
 python lscan.py -f bin/bin-libxml2-2.9.3 -s sig/libxml2-2.9.3.sig
 python lscan.py -f bin/bin-libstdc++-4.9.1 -s sig/libstdc++-4.8.1.sig
 python lscan.py -f bin/bin-libstdc++-4.9.1 -s sig/libstdc++-4.9.1.sig
+python lscan.py -f bin/bin-libc-2.23 -s sig/libc-2.12.sig
+python lscan.py -f bin/bin-libc-2.23 -s sig/libc-2.17.sig
+python lscan.py -f bin/bin-libc-2.23 -s sig/libc-2.22.sig
+python lscan.py -f bin/bin-libc-2.23 -s sig/libc-2.23.sig
 python lscan.py -f bin/bin-libpthread-2.23 -s sig/libpthread-2.12.sig
 python lscan.py -f bin/bin-libpthread-2.23 -s sig/libpthread-2.17.sig
 python lscan.py -f bin/bin-libpthread-2.23 -s sig/libpthread-2.22.sig
