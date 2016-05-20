@@ -47,14 +47,15 @@ class Header:
         n_fcns = 0
         pat_size = 0
         lib_name = ""
+        num_fcns = 0
 
 class Node:
         len = 0
         var_mask = 0
         pat_bytes = None
         var_bool_arr = None
-        childs = None
-        modules = None
+        childs = []
+        modules = []
         parent = None
 
 class Module:
@@ -78,6 +79,7 @@ class Tail:
 
 class Flag:
                 flags = 0
+
 
 class Segment:
 		offset = 0
@@ -207,6 +209,8 @@ def parse_mod_pub_fcn(module, buf, flags, header):
                         print "Function name too long"
                 flags.flags = cur_byte
                 module.pub_fcns.append(fcn)
+                #print fcn.name
+                header.num_fcns+=1
                 if flags.flags & 0x1 == 0:
                         break
 
@@ -436,7 +440,7 @@ def parse_signature_file(file):
         buf.seek(0)
         root_node = Node()
         parse_tree(buf, root_node, header)
-        return root_node
+        return root_node, header
 
 def crc16(buf, len):
         poly = 0x8408
@@ -570,14 +574,15 @@ def identify_functions(sigfile, binfile, debug = False):
 	print "Total functions in binary %d"%len(fcns)
 	for sigf in sigfiles:
 		matches.clear()
-		root_node = parse_signature_file(sigf)
-		#dump_nod(root_node)
-		nod_cmp_fcns2(root_node, buf, debug)
-		if len(fcns):
-			print "%s %d/%d (%s%%)"%(sigf, len(matches), len(fcns), "{:.2f}".format(100 * float(len(matches))/float(len(fcns))))
-		else:
+        root_node, header = parse_signature_file(sigf)		        
+        #dump_nod(sig.root_node)
+        nod_cmp_fcns2(root_node, buf, debug)
+		#TODO
+        if True:
+			print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
+        else:
 			print "%s %d"%(sigf, len(matches))
-		if debug:
+        if debug:
 			for offset in matches:
 				for seg in segs:
 					if seg.addr + int(offset,16) < seg.addr + seg.size:									
