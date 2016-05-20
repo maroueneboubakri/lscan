@@ -19,14 +19,14 @@ $lscan.py
 
 Options:
 
-  -h, --help     show this help message and exit  
-  -v, --versbose        Verbose mode  
-  -s SIGFILE, --sig=SIGFILE  
-                        Signature file						
-  -S SIGDIR, --sigs=SIGDIR  
-                        Signature folder						
-  -f BINFILE, --file=BINFILE  
-                        ELF file
+>  -h, --help     show this help message and exit  
+>  -v, --versbose        Verbose mode  
+>  -s SIGFILE, --sig=SIGFILE  
+>                        Signature file						
+>  -S SIGDIR, --sigs=SIGDIR  
+>                        Signature folder						
+>  -f BINFILE, --file=BINFILE  
+>                        ELF file
 
 ### Example:
 
