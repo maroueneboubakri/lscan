@@ -16,12 +16,35 @@ import optparse
 import os
 import re
 
-MAX_NAME = 1024
+#max function name length
+MAX_FLIRT_FUNCTION_NAME = 1024
+
+#arch flags
 ARCH = ["386","Z80","I860","8051","TMS","6502","PDP","68K","JAVA","6800","ST7","MC6812","MIPS","ARM","TMSC6","PPC","80196","Z8","SH","NET","AVR","H8","PIC","SPARC","ALPHA","HPPA","H8500","TRICORE","DSP56K","C166","ST20","IA64","I960","F2MC","TMS320C54","TMS320C55","TRIMEDIA","M32R","NEC_78K0","NEC_78K0S","M740","M7700","ST9","FR","MC6816","M7900","TMS320C3","KR1878","AD218X","OAKDSP","TLCS900","C39","CR16","MN102L00","TMS320C1X","NEC_V850X","SCR_ADPT","EBC","MSP430","SPU","DALVIK"]
+#file types flags
 FILE_TYPE = {"DOSEXE(OLD)": 0x1, "DOSCOM(OLD)": 0x2, "BIN": 0x4,"DOSDRV":0x8,"NE":0x10,"INTEL_HEX": 0x20,"MOS_HEX":0x40,"LX":0x80,"LE":0x100,"NLM":0x200,"COFF": 0x400,"PE":0x800,"OMF":0x1000,"SREC": 0x2000,"ZIP": 0x4000,"OMFLIB": 0x8000,"AR": 0x10000,"LOADER": 0x20000,"ELF":0x40000,"W32RUN": 0x80000,"AOUT":0x100000,"PILOT": 0x200000,"DOS_EXE": 0x400000,"DOS_COM": 0x800000,"AIXAR": 0x1000000}
+#os types flags
 OS_TYPE = {"MSDOS":0x01, "WIN":0x02, "OS/2":0x04, "NETWARE":0x08, "UNIX":0x10, "OTHER":0x20}
+#app types flags
 APP_TYPE = {"CONSOLE":0x1, "GRAPHICS":0x2, "EXE": 0x4, "DLL":0x8, "DRV":0x10, "SINGLE-THREADED":0x20,"MULTI-THREADED":0x40, "16BIT":0x80, "32BIT":0x100, "64BIT":0x200}
+#feature flags
 FEATURES = {"STARTUP":0x01, "CTYPE_CRC":0x02, "2BYTE_CTYPE":0x04, "ALT_CTYPE_CRC":0x08, "COMPRESSED":0x10}
+
+
+#parsing flags
+PARSE_MORE_PUBLIC_NAMES = 0x1
+PARSE_TAIL_BYTES = 0x2
+PARSE_REF_FUNCTIONS = 0x4
+PARSE_MORE_MODULES_WITH_SAME_CRC = 0x8
+PARSE_MORE_MODULES = 0x10
+
+#function flags
+#function appears as "d" in dumpsig
+FUNCTION_D = 0x1
+FUNCTION_LOCAL = 0x2
+#function appears as "?" in dumpsig
+FUNCTION_Q = 0x4
+FUNCTION_UNRESOLVED_COLLISION = 0x08
 
 matches = {}
 
@@ -86,7 +109,7 @@ class Segment:
 		size = 0
 		addr = 0
 
-def parse_bin_file(filename):
+def parse_binary_file(filename):
 	fcns = []
 	segs = []
 	try:
@@ -154,11 +177,13 @@ def next_m2bytes(buf):
                 return ((byte & 0x7f) << 8) + next_byte(buf)
         return byte
 
-def parse_nod_len(node, buf):
+def parse_node_length(node, buf):
+        '''parse the pattern size of the node'''
         node.len = next_byte(buf)
         return node
 
-def parse_nod_vmask(node, buf):
+def parse_node_variant_mask(node, buf):
+        '''parse the mask defining the variant bytes'''
         if node.len < 0x10:
                 node.var_mask = next_m2bytes(buf)
         elif node.len <= 0x20:
@@ -166,7 +191,8 @@ def parse_nod_vmask(node, buf):
         elif node.len <= 0x40:
                 node.var_mask = (next_mbytes(buf) << 32)+ next_mbytes(buf)
 
-def parse_nod_bytes(node, buf):
+def parse_node_bytes(node, buf):
+        '''parse node bytes and variant bytes'''
         cur_mask_bit = 1L << (node.len - 1)
         node.var_bool_arr = []
         node.pat_bytes = []
@@ -179,7 +205,8 @@ def parse_nod_bytes(node, buf):
                 cur_mask_bit >>= 1
 
 
-def parse_mod_pub_fcn(module, buf, flags, header):
+def parse_module_public_functions(module, buf, flags, header):
+        '''parse module public functions'''
         module.pub_fcns = []
         offset = 0
         while True:
@@ -191,30 +218,30 @@ def parse_mod_pub_fcn(module, buf, flags, header):
                 fcn.offset = offset
                 cur_byte = next_byte(buf)
                 if cur_byte < 0x20:
-                        if cur_byte & 0x2 :
+                        if cur_byte & FUNCTION_LOCAL :
                                 fcn.is_loc = True
-                        if cur_byte & 0x8 :
+                        if cur_byte & FUNCTION_UNRESOLVED_COLLISION :
                                 fcn.is_col = True
-                        if (cur_byte & 0x01) or (cur_byte & 0x04):
+                        if (cur_byte & FUNCTION_D) or (cur_byte & FUNCTION_Q):
                                 print "investig. flag of pub name..."
                         cur_byte = next_byte(buf)
 						
-                for i in range(MAX_NAME):
+                for i in range(MAX_FLIRT_FUNCTION_NAME):
                         if cur_byte < 0x20:
                                 break
                         fcn.name+= chr(cur_byte)
                         cur_byte = next_byte(buf)
 
-                if i == MAX_NAME:
+                if i == MAX_FLIRT_FUNCTION_NAME:
                         print "Function name too long"
                 flags.flags = cur_byte
                 module.pub_fcns.append(fcn)
-                #print fcn.name
                 header.num_fcns+=1
-                if flags.flags & 0x1 == 0:
+                if flags.flags & PARSE_MORE_PUBLIC_NAMES == 0:
                         break
 
-def parse_mod_tbytes (module, buf, header):
+def parse_module_tail_bytes (module, buf, header):
+        '''parse module tail bytes'''
         module.tail_bytes = []
 
         if  header.version >= 8 :
@@ -235,7 +262,8 @@ def parse_mod_tbytes (module, buf, header):
                 tail_byte.value = next_byte(buf)
                 module.tail_bytes.append(tail_byte)
 
-def parse_mod_ref_fcn(module, buf, header):
+def parse_module_referenced_functions(module, buf, header):
+        '''parse module referenced functions'''
         module.ref_fcns = []
 
         if header.version >= 8 :
@@ -265,6 +293,7 @@ def parse_mod_ref_fcn(module, buf, header):
                 module.ref_fcns.append(ref_fcn)
 
 def parse_leaf (buf, node, header):
+        '''parse a flirt signature leaf: a leaf has modules with same leading pattern'''
         node.modules = []
         flags = Flag()
         while True:
@@ -278,18 +307,19 @@ def parse_leaf (buf, node, header):
                                 module.len = next_mbytes(buf)
                         else:
                                 module.len = next_m2bytes(buf)
-                        parse_mod_pub_fcn(module, buf, flags, header)
-                        if flags.flags & 0x2:
-                                parse_mod_tbytes(module, buf, header)
-                        if flags.flags & 0x4:
-                                parse_mod_ref_fcn(module, buf, header)
+                        parse_module_public_functions(module, buf, flags, header)
+                        if flags.flags & PARSE_TAIL_BYTES:
+                                parse_module_tail_bytes(module, buf, header)
+                        if flags.flags & PARSE_REF_FUNCTIONS:
+                                parse_module_referenced_functions(module, buf, header)
                         node.modules.append(module)
-                        if flags.flags & 0x8 == 0:
+                        if flags.flags & PARSE_MORE_MODULES_WITH_SAME_CRC == 0:
                                 break
-                if  flags.flags & 0x10 == 0:
+                if  flags.flags & PARSE_MORE_MODULES == 0:
                         break
 
 def parse_tree(buf, root_node, header):
+        '''parse a flirt signature tree or subtree'''
         tree_nodes = next_mbytes(buf)
         if tree_nodes == 0:
                 parse_leaf(buf, root_node, header)
@@ -297,14 +327,14 @@ def parse_tree(buf, root_node, header):
         root_node.childs = []
         for i in range(tree_nodes):
                 node = Node()
-                node = parse_nod_len(node, buf)
-                parse_nod_vmask(node, buf)
-                parse_nod_bytes(node, buf)
+                node = parse_node_length(node, buf)
+                parse_node_variant_mask(node, buf)
+                parse_node_bytes(node, buf)
                 node.parent = root_node
                 root_node.childs.append(node)
                 parse_tree(buf, node, header)
 
-def dump_nod_pat (node):
+def dump_node_pattern (node):
         for i in range(node.len):
                 if node.var_bool_arr[i]:
                         sys.stdout.write("..")
@@ -317,7 +347,7 @@ def ident (indent):
         for i in range(indent):
                 print "  ",
 
-def dump_mod (module):
+def dump_module (module):
         sys.stdout.write("%02X %04X %04X"%(module.crc_len, module.crc16, module.len))
         for func in module.pub_fcns:
                 if func.is_loc or func.is_col:
@@ -342,21 +372,21 @@ def dump_mod (module):
                 sys.stdout.write(")")
         print " "
 
-def dump_nod (node,indent = 0):
-
+def dump_node(node,indent = 0):
+        '''dump a flirt signature node, the output is the same as the dumpsig command output'''
         if node.pat_bytes is not None:
                 ident(indent)
-                dump_nod_pat(node)
+                dump_node_pattern(node)
 
         if len(node.childs):
                 for child in node.childs:
-                        dump_nod(child, indent + 1)
+                        dump_node(child, indent + 1)
         elif len(node.modules):
                 i = 0
                 for module in node.modules:
                         ident (indent + 1)
                         print "%d."%i,
-                        dump_mod(module)
+                        dump_module(module)
                         i+=1
 
 def parse_flg_str(flag, value, str):
@@ -365,6 +395,7 @@ def parse_flg_str(flag, value, str):
         return ""
 
 def dump_header(header):
+        '''dump flirt signature file header'''
         print "lib: %s"%header.lib_name
         print "magic: %s"%header.magic
         print "version: %d"%header.version
@@ -397,7 +428,7 @@ def dump_header(header):
 
 
 def parse_signature_file(file):
-
+        '''parse a flirt signature file'''
         sigfile = open(file, 'rb')
 
         header = Header()
@@ -408,22 +439,22 @@ def parse_signature_file(file):
         if header.magic != "IDASGN":
                 sys.exit('Not a FLIRT signature')
 
-        header.version = struct.unpack("B", buf.read(1))[0]
-        header.arch = struct.unpack("B", buf.read(1))[0]
-        header.file_types = struct.unpack("I",buf.read(4))[0]
-        header.os_types = struct.unpack("H",buf.read(2))[0]
-        header.app_types = struct.unpack("H",buf.read(2))[0]
-        header.features = struct.unpack("H", buf.read(2))[0]
-        header.old_n_fcns = struct.unpack("H", buf.read(2))[0]
-        header.crc16 = struct.unpack("H", buf.read(2))[0]
+        header.version = next_byte(buf)
+        header.arch = next_byte(buf)
+        header.file_types = next_word(buf)
+        header.os_types = next_short(buf)
+        header.app_types = next_short(buf)
+        header.features = next_short(buf)
+        header.old_n_fcns = next_short(buf)
+        header.crc16 = next_short(buf)
         header.ctype = buf.read(12)
-        header.lib_name_length = struct.unpack("B", buf.read(1))[0]
-        header.ctypes_crc16 = struct.unpack("H", buf.read(2))[0]
+        header.lib_name_length = next_byte(buf)
+        header.ctypes_crc16 = next_short(buf)
 
         if header.version >= 6:
-                        header.n_fcns = struct.unpack("I",buf.read(4))[0]
+                        header.n_fcns = next_word(buf)
         if header.version >= 8:
-                        header.pat_size = struct.unpack("H", buf.read(2))[0]
+                        header.pat_size = next_short(buf)
 
         header.lib_name = buf.read(header.lib_name_length)
 
@@ -432,7 +463,6 @@ def parse_signature_file(file):
         if header.features & 0x10:
                         if header.version == 5 :
                                 sys.exit('Compression is not supported in version 5')
-                        #print "Compressed sig file"
                         z = zlib.decompressobj()
                         buf = z.decompress(buf)
 
@@ -462,7 +492,7 @@ def crc16(buf, len):
         crc = chr(reg & 0xff) + chr(reg >> 8)
         return int(crc.encode("hex"),16)				
 
-def mod_cmp_buf(module, fcn, buf, debug=False):
+def module_comapre_buffer(module, fcn, buf, debug=False):
 	if len(fcn.buf) == 0:
 		return False
 	
@@ -481,7 +511,7 @@ def mod_cmp_buf(module, fcn, buf, debug=False):
 	return True
 
 	
-def nod_cmp_pat(node, buf,debug=False):
+def node_compare_pattern(node, buf,debug=False):
 	for i in range(node.len):
 		if i >= len(buf):
 			break
@@ -490,66 +520,45 @@ def nod_cmp_pat(node, buf,debug=False):
 				return False
 	return True
 		
-def nod_cmp_buf(node, buf, fcn, debug=False):
-	if nod_cmp_pat(node, buf):
+def node_compare_buffer(node, buf, fcn, debug=False):
+	if node_compare_pattern(node, buf):
 		if node.childs:
 			for child in node.childs:
-				if nod_cmp_buf(child, buf[node.len:],fcn, debug):
+				if node_compare_buffer(child, buf[node.len:],fcn, debug):
 					return True	
 		elif node.modules:
 			for module in node.modules:
-				if mod_cmp_buf(module, fcn, fcn.buf, debug):
+				if module_compare_buffer(module, fcn, fcn.buf, debug):
 					return True
 	return False
 
 	
-def nod_cmp_fcns(rnode, fcns, debug=False):	
-	for fcn in fcns:
-		#if fcn.name != "strlen":
-		#	continue
-		for child in rnode.childs:
-			if nod_cmp_buf(child, fcn.buf, fcn, debug):
-				break
-
-
-def nod_cmp_fcns2(node, buf, debug=False):        
+def node_compare_functions(node, buf, debug=False):        
         if len(node.childs):
                 for child in node.childs:
-                        nod_cmp_fcns2(child, buf, debug)
+                        node_compare_functions(child, buf, debug)
         elif len(node.modules):
 				pattern = []
 				variant = []
 				nnode = node
 				while nnode:
 					if nnode.pat_bytes:
-						#print nnode.pat_bytes
 						pattern = nnode.pat_bytes + pattern
 						variant = nnode.var_bool_arr + variant
-					#print nnode.pat_bytes
-					#print nnode.var_bool_arr
 					nnode = nnode.parent
-				#print "".join(map(chr, pattern)).encode("hex")
-				#print len(variant)
 				re_pat = b""
-				#print variant
-				#print pattern
 				for i in range(len(pattern)):
 					if variant[i]:
 						re_pat+=b"(.)" 
 					else:
 						re_pat+=re.escape(chr(pattern[i]))				
-				'''pat = "".join(map(chr, pattern))
-				pat = [ re.escape(p) for p in pat ]
-				pat = b"".join(pat)
-				'''
-				#print re_pat.encode("hex")
+
 				regex = re.compile(re_pat, re.DOTALL+re.MULTILINE)				
 				match = regex.search(buf)				
 				if match:
 					for module in node.modules:
 						found = True
 						bufcrc16 = crc16(buf[match.start()+32:match.start()+32+module.crc_len], module.crc_len)
-						#print "%x %x"%(bufcrc16,module.crc16)
 						if bufcrc16 != module.crc16:
 							found = False
 						if module.tail_bytes:
@@ -567,16 +576,14 @@ def identify_functions(sigfile, binfile, debug = False):
 	elif os.path.isdir(sigfile):
 		sigfiles.extend([os.path.join(sigfile,fn) for fn in next(os.walk(sigfile))[2]])
 	
-	fcns, buf, segs =  parse_bin_file(binfile)
-	'''if len(fcns) == 0:
-		sys.exit("No functions loaded from binary")
-	'''
+	fcns, buf, segs =  parse_binary_file(binfile)
+
 	print "Total functions in binary %d"%len(fcns)
 	for sigf in sigfiles:
 		matches.clear()
         root_node, header = parse_signature_file(sigf)		        
-        #dump_nod(sig.root_node)
-        nod_cmp_fcns2(root_node, buf, debug)
+        #dump_header(header)
+        node_compare_functions(root_node, buf, debug)
 		#TODO
         if True:
 			print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
