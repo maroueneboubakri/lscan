@@ -581,15 +581,15 @@ def identify_functions(sigfile, binfile, debug = False):
 	print "Total functions in binary %d"%len(fcns)
 	for sigf in sigfiles:
 		matches.clear()
-        root_node, header = parse_signature_file(sigf)		        
+        	root_node, header = parse_signature_file(sigf)		        
         #dump_header(header)
-        node_compare_functions(root_node, buf, debug)
+	        node_compare_functions(root_node, buf, debug)
 		#TODO
-        if True:
+        	if True:
 			print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
-        else:
+	        else:
 			print "%s %d"%(sigf, len(matches))
-        if debug:
+        	if debug:
 			for offset in matches:
 				for seg in segs:
 					if seg.addr + int(offset,16) < seg.addr + seg.size:									
