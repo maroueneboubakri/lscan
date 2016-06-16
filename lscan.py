@@ -251,8 +251,8 @@ def parse_module_tail_bytes (module, buf, header):
 
         for i in range(tail_bytes_nbr):
                 tail_byte = Tail()
-                if tail_byte is None:
-                        return False
+                #if tail_byte is None:
+                #        return False
 
                 if header.version >= 9:
                         tail_byte.offset = next_mbytes(buf)
@@ -492,24 +492,6 @@ def crc16(buf, len):
         crc = chr(reg & 0xff) + chr(reg >> 8)
         return int(crc.encode("hex"),16)				
 
-def module_comapre_buffer(module, fcn, buf, debug=False):
-	if len(fcn.buf) == 0:
-		return False
-	
-	if len(buf) < 32 + module.crc_len:
-		return False
-	
-	if 32 + module.crc_len < len(buf) and module.crc16 != crc16(buf[32:], module.crc_len):
-		return False
-	if module.tail_bytes:
-		for tail_byte in module.tail_bytes:
-			if 32 + module.crc_len + tail_byte.offset < len(buf) and buf[32 + module.crc_len + tail_byte.offset] != tail_byte.value:
-				return False
-	for ffcn in module.pub_fcns:		
-		matches[hex(ffcn.offset+fcn.offset)] = ffcn.name
-	
-	return True
-
 	
 def node_compare_pattern(node, buf,debug=False):
 	for i in range(node.len):
@@ -553,21 +535,36 @@ def node_compare_functions(node, buf, debug=False):
 					else:
 						re_pat+=re.escape(chr(pattern[i]))				
 
+				#print re_pat
 				regex = re.compile(re_pat, re.DOTALL+re.MULTILINE)				
-				match = regex.search(buf)				
-				if match:
-					for module in node.modules:
-						found = True
-						bufcrc16 = crc16(buf[match.start()+32:match.start()+32+module.crc_len], module.crc_len)
-						if bufcrc16 != module.crc16:
-							found = False
+				matchs = regex.finditer(buf)
+				#print matchs				
+				for match in matchs:
+#					print match
+					for module in node.modules:						
+#						if module.crc_len == 0:
+#							break 
+						bufcrc16 = crc16(buf[match.start()+32:match.start()+32+module.crc_len], module.crc_len)													
+						if bufcrc16 != module.crc16:							
+							break
+							#continue
 						if module.tail_bytes:
 							for tail_byte in module.tail_bytes:
-								if buf[match.start()+ 32 + module.crc_len + tail_byte.offset] != tail_byte.value:
-									found = False												
-						if found:
-							for ffcn in module.pub_fcns:		
-								matches[hex(ffcn.offset+match.start())] = ffcn.name						
+								if ord(buf[match.start()+ 32 + module.crc_len + tail_byte.offset]) == tail_byte.value:												
+									for ffcn in module.pub_fcns:		
+										#matches[hex(ffcn.offset+match.start())] = ffcn.name
+										matches[ffcn.name] = hex(ffcn.offset+match.start())	
+									break
+											
+#						if module.ref_fcns:
+#							print "Module has %d ref_fcns to match"%len(module.ref_fcns)
+#							for ref_fcn in module.ref_fcns:
+#								print ref_fcn.name
+						#if found:
+						for ffcn in module.pub_fcns:		
+							if True:
+								#matches[hex(ffcn.offset+match.start())] = ffcn.name						
+								matches[ffcn.name] = hex(ffcn.offset+match.start())	
 										
 def identify_functions(sigfile, binfile, debug = False):
 	sigfiles = []
@@ -583,6 +580,7 @@ def identify_functions(sigfile, binfile, debug = False):
 		matches.clear()
         	root_node, header = parse_signature_file(sigf)		        
         #dump_header(header)
+		#dump_node(root_node)
 	        node_compare_functions(root_node, buf, debug)
 		#TODO
         	if True:
@@ -590,10 +588,10 @@ def identify_functions(sigfile, binfile, debug = False):
 	        else:
 			print "%s %d"%(sigf, len(matches))
         	if debug:
-			for offset in matches:
+			for fn in matches:
 				for seg in segs:
-					if seg.addr + int(offset,16) < seg.addr + seg.size:									
-						print "\t0x%x: %s"%(seg.addr + int(offset,16), matches[offset])
+					if seg.addr + int(matches[fn],16) < seg.addr + seg.size:									
+						print "\t0x%x: %s"%(seg.addr + int(matches[fn],16), fn)
 						break				
 	
 if __name__ == "__main__":
