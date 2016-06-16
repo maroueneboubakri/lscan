@@ -38,6 +38,13 @@ Options:
 
 ## Changelog
 
+**Version 0.4 (2016-06-19)**
+- Bug fix: handling tail bytes, type mismatch in comparison
+- Bug fix: Regex, search method replaced by finditer method to iterate through all node pattern matches
+- Bug fix: handling tail bytes, iterate through all functions in module having tail bytes
+- Handling modules with crc length = 0 and crc = 0 espacially for small functions
+
+
 **Version 0.3 (2016-03-28)**
 - Support for stripped binary
 - Introduced deep match mode
