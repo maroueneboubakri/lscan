@@ -9,7 +9,7 @@ If you want to use lscan, you have to install [pyelftools](https://github.com/el
 
 After pyelftools is installed, lscan can be used as a standalone tool
 
-> $python lscan.py options
+> $python lscan.py  [-h] [-f BINFILE] [-s SIGFILE] [-S SIGDIR] [-v]
 
 
 ## Usage
