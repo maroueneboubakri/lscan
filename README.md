@@ -49,7 +49,7 @@ Generate the sig file from the pat file
 
 Optionally Use -n parameter to specify the library name.
 
-Collisions may occurs while generating the sig file. In this case a libc.exc file will be created. To resolve the conflicts you must edit the .exc file and remove lines to remove conflict functions or add + to keep to the beginning of the line to keep a function. After resolving the conflicts run the above command again. Finnaly copy the libc.sig file to lscan's sig folder.
+Collisions may occurs while generating the sig file. In this case a libc.exc file will be created. To resolve the conflicts you must edit the .exc and add '+' at the start of the line to keep a module or '-' if you are not sure about the selection. Do nothing if you want to exclue all the modules. After resolving the conflicts run the above command again. Finnaly copy the libc.sig file to lscan's sig folder.
 
 
 ## Changelog
