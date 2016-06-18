@@ -95,3 +95,16 @@ gcc ../bin-glib2-2.44.c -o ../../bin-glib2-2.44 -static -fno-inline-small-functi
 #sudo rpm -i --force --nodeps glib2-static-2.46.2-2.fc23.i686.rpm 
 sudo yum install glib2-static-2.46.2-2.fc23.i686
 gcc ../bin-glib2-2.46.c -o ../../bin-glib2-2.46 -static -fno-inline-small-functions -m32 -I /usr/include/glib-2.0/ -I /usr/lib/glib-2.0/include/ -lglib-2.0 -lpthread
+#sudo yum install libstdc++-static
+#sudo yum install gcc-c++
+sudo yum install libstdc++-static-5.3.1-6.fc23.i686
+gcc bin-libstdc++-5.3.1.cpp -o ../bin-libstdc++-5.3.1 -static -lstdc++ -m32 -fno-inline-small-functions
+http://dl.fedoraproject.org/pub/fedora/linux/releases/23/Everything/i386/os/Packages/l/libstdc++-static-5.1.1-4.fc23.i686.rpm
+sudo rpm -i --force --nodeps libstdc++-static-5.1.1-4.fc23.i686.rpm 
+sudo find / -name libstdc++.a
+sudo mv /usr/lib/gcc/i686-redhat-linux/5.3.1/libstdc++.a /usr/lib/gcc/i686-redhat-linux/5.3.1/libstdc++.a.bak
+gcc bin-libstdc++-5.1.1.cpp -o ../bin-libstdc++-5.1.1 -static -lstdc++ -m32 -fno-inline-small-functions -L /usr/lib/gcc/i686-redhat-linux/5.1.1/
+wget http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/21/Everything/i386/os/Packages/l/libstdc++-static-4.9.2-1.fc21.i686.rpm
+sudo rpm -i --force --nodeps libstdc++-static-4.9.2-1.fc21.i686.rpm
+sudo find / -name libstdc++.a
+gcc bin-libstdc++-4.9.2.cpp -o ../bin-libstdc++-4.9.2 -static -lstdc++ -m32 -fno-inline-small-functions -L /usr/lib/gcc/i686-redhat-linux/4.9.2/
