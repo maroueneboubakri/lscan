@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
                           NULL};
 
 
-  printf("lscan test binary file statically compiled with libpcre-8.30\n");
+  printf("lscan test binary file statically compiled with libpcre-8.32\n");
 
   aStrRegex = "(.*)(hello)+";  
   printf("Regex to use: %s\n", aStrRegex);
