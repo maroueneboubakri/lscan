@@ -1,5 +1,5 @@
 # lscan
-lscan is an IDA PRO FLIRT signature matcher on statically linked/stripped binaries
+lscan is a library identification tool on statically linked/stripped binaries
 
 
 ## Install
@@ -9,7 +9,7 @@ If you want to use lscan, you have to install [pyelftools](https://github.com/el
 
 After pyelftools is installed, lscan can be used as a standalone tool
 
-> $python lscan.py options
+> $python lscan.py  [-h] [-f BINFILE] [-s SIGFILE] [-S SIGDIR] [-v]
 
 
 ## Usage
@@ -34,6 +34,22 @@ Options:
 
 > $python sigmatch.py -s sigdb/libcrypt-2.23.sig -f test/bin2 -v
 
+
+## Updating sig database
+
+To generate sig files and add them to lscan fig database you need IDA flair tool. 
+
+Generate the pat file 
+
+> $./pelf /usr/lib/libc.a libc.pat
+
+Generate the sig file from the pat file
+
+> $./sigmake libc.pat libc.sig
+
+Optionally Use -n parameter to specify the library name.
+
+Collisions may occurs while generating the sig file. In this case a libc.exc file will be created. To resolve the conflicts you must edit the .exc file and remove lines to remove conflict functions or add + to keep to the beginning of the line to keep a function. After resolving the conflicts run the above command again. Finnaly copy the libc.sig file to lscan's sig folder.
 
 
 ## Changelog
