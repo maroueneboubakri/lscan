@@ -32,7 +32,6 @@ gcc ../bin-libz-1.2.7.c -o ../../bin-libz-1.2.7 -static -fno-inline-small-functi
 #sudo rpm -i --force --nodeps zlib-static-1.2.3-29.el6.i686.rpm 
 sudo yum install zlib-static-1.2.3-29.el6.i686
 gcc ../bin-libz-1.2.3.c -o ../../bin-libz-1.2.3 -static -fno-inline-small-functions -m32 -lz
-
 #sudo yum install libxml2-static
 #sudo yum install xz-static
 #wget http://195.220.108.108/linux/fedora/linux/updates/23/i386/l/libxml2-static-2.9.3-2.fc23.i686.rpm
@@ -66,6 +65,7 @@ sudo yum install openssl-static-1.0.1e-48.el6_8.1.i686
 gcc ../bin-libcrypto-1.0.1e.c -o ../../bin-libcrypto-1.0.1e -static -fno-inline-small-functions -m32 -lcrypto -lz -ldl -Wl,--unresolved-symbols=ignore-all
 gcc ../bin-libssl-1.0.1e.c -o ../../bin-libssl-1.0.1e -static -fno-inline-small-functions -m32 -lssl -lcrypto -lz -ldl -Wl,--unresolved-symbols=ignore-all
 #wget http://195.220.108.108/linux/fedora/linux/updates/23/i386/o/openssl-static-1.0.2h-1.fc23.i686.rpm
+#sudo rpm -i --force --nodeps openssl-static-1.0.2h-1.fc23.i686.rpm
 sudo yum install openssl-static-1.0.2h-1.fc23.i686
 gcc ../bin-libcrypto-1.0.2h.c -o ../../bin-libcrypto-1.0.2h -static -fno-inline-small-functions -m32 -lcrypto -lz -ldl -Wl,--unresolved-symbols=ignore-all
 gcc ../bin-libssl-1.0.2h.c -o ../../bin-libssl-1.0.2h -static -fno-inline-small-functions -m32 -lssl -lcrypto -lz -ldl -Wl,--unresolved-symbols=ignore-all
@@ -99,7 +99,7 @@ gcc ../bin-glib2-2.46.c -o ../../bin-glib2-2.46 -static -fno-inline-small-functi
 #sudo yum install gcc-c++
 sudo yum install libstdc++-static-5.3.1-6.fc23.i686
 gcc bin-libstdc++-5.3.1.cpp -o ../bin-libstdc++-5.3.1 -static -lstdc++ -m32 -fno-inline-small-functions
-http://dl.fedoraproject.org/pub/fedora/linux/releases/23/Everything/i386/os/Packages/l/libstdc++-static-5.1.1-4.fc23.i686.rpm
+wget http://dl.fedoraproject.org/pub/fedora/linux/releases/23/Everything/i386/os/Packages/l/libstdc++-static-5.1.1-4.fc23.i686.rpm
 sudo rpm -i --force --nodeps libstdc++-static-5.1.1-4.fc23.i686.rpm 
 sudo find / -name libstdc++.a
 sudo mv /usr/lib/gcc/i686-redhat-linux/5.3.1/libstdc++.a /usr/lib/gcc/i686-redhat-linux/5.3.1/libstdc++.a.bak
