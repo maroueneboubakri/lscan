@@ -575,7 +575,7 @@ def identify_functions(sigfile, binfile, debug = False):
 	
     fcns, buf, segs =  parse_binary_file(binfile)
 
-    print "Total functions in binary %d"%len(fcns)
+    #print "Total functions in binary %d"%len(fcns)
     for sigf in sigfiles:
         matches.clear()
         root_node, header = parse_signature_file(sigf)
