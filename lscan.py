@@ -567,30 +567,26 @@ def node_compare_functions(node, buf, debug=False):
 								matches[ffcn.name] = hex(ffcn.offset+match.start())	
 										
 def identify_functions(sigfile, binfile, debug = False):
-	sigfiles = []
-	if os.path.isfile(sigfile):
+    sigfiles = []
+    if os.path.isfile(sigfile):
 		sigfiles.append(sigfile)
-	elif os.path.isdir(sigfile):
+    elif os.path.isdir(sigfile):
 		sigfiles.extend([os.path.join(sigfile,fn) for fn in next(os.walk(sigfile))[2]])
 	
-	fcns, buf, segs =  parse_binary_file(binfile)
+    fcns, buf, segs =  parse_binary_file(binfile)
 
-	print "Total functions in binary %d"%len(fcns)
-	for sigf in sigfiles:
-		matches.clear()
-        	root_node, header = parse_signature_file(sigf)		        
+    print "Total functions in binary %d"%len(fcns)
+    for sigf in sigfiles:
+        matches.clear()
+        root_node, header = parse_signature_file(sigf)
         #dump_header(header)
-		#dump_node(root_node)
-	        node_compare_functions(root_node, buf, debug)
-		#TODO
-        	if True:
-			print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
-	        else:
-			print "%s %d"%(sigf, len(matches))
-        	if debug:
+        #dump_node(root_node)
+        node_compare_functions(root_node, buf, debug)
+        print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
+        if debug:
 			for fn in matches:
 				for seg in segs:
-					if seg.addr + int(matches[fn],16) < seg.addr + seg.size:									
+					if seg.addr + int(matches[fn],16) < seg.addr + seg.size:
 						print "\t0x%x: %s"%(seg.addr + int(matches[fn],16), fn)
 						break				
 	
