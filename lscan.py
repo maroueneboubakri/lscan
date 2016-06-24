@@ -781,7 +781,7 @@ def identify_functions(node, buf, debug=False):
 						# matches[hex(ffcn.offset+match.start())] = ffcn.name						
 						matches[ffcn.name] = hex(ffcn.offset+match.start())	
 										
-def lscan(sigfile, binfile, debug = False):
+def lscan(sigfile, binfile, debug = False, dump = False):
 	'''
 	match a binary file against a signature file
 	Args:
@@ -801,6 +801,9 @@ def lscan(sigfile, binfile, debug = False):
 		matches.clear()
 		# parse a signature file
 		root_node, header = parse_signature_file(sigf)
+		if dump:
+			dump_header(header)
+			dump_node(root_node)
 		# do the job
 		identify_functions(root_node, buf, debug)
 		print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
@@ -820,6 +823,7 @@ if __name__ == "__main__":
 	pars.add_option('-s', '--sig',action="store", dest="sigfile", type="string", help="Signature file",default=None)
 	pars.add_option('-S', '--sigs',action="store", type="string", dest="sigdir", help="Signature folder",default=None)
 	pars.add_option('-f', '--file',action="store", type="string", dest="binfile", help="ELF file",default=None)
+	pars.add_option('-d', '--dump',action="store_true", dest="dump", help="Dump signature filre",default=None)
 
 	opts, args = pars.parse_args()
 
@@ -834,7 +838,7 @@ if __name__ == "__main__":
 	if opts.sigfile and os.path.isdir(opts.sigfile):
 		pars.error('%s is a directory'%opts.sigfile)
 	
-	lscan(opts.sigdir if opts.sigdir else opts.sigfile, opts.binfile, opts.verbose)
+	lscan(opts.sigdir if opts.sigdir else opts.sigfile, opts.binfile, opts.verbose, opts.dump)
 
 
 
