@@ -1,6 +1,8 @@
 # lscan
-lscan is a library identification tool on statically linked/stripped binaries
-
+lscan is a tool which identifying library in statically linked/stripped binaries.
+The tool is useful for the reverse engineering and computer forensics.
+It helps recognizing common functions in compiled binaries and determining libraries they are using.
+lscan uses FLIRT (Fast Library Identification and Recognition Technology) signatures to perform library identification.
 
 ## Install
 
@@ -75,8 +77,9 @@ Collisions may occurs while generating the sig file. In this case a libc.exc fil
 - More information output (function offset+names)
 - Updated the command line layout and help messages
 
-
-
 **Version 0.1(2016-03-20)**
 - First release
 
+
+## Authors
+- Marouene Boubakri <[marouene.boubakri@eurecom.fr](mailto:marouene.boubakri@eurecom.fr)>
