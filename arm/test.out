@@ -13,3 +13,19 @@ bin-libc-2.23
 ./sig/libc-2.22.sig 731/2841 (25.73%)
 ./sig/libc-2.23.sig 787/2853 (27.58%)
 
+bin-libcrypto-1.0.1e
+./sig/libcrypto-1.0.1e.sig 22/4518 (0.49%)
+./sig/libcrypto-1.1.0.sig 1/37 (2.70%)
+
+bin-libcrypto-1.1.0
+./sig/libcrypto-1.0.1e.sig 7/4518 (0.15%)
+./sig/libcrypto-1.1.0.sig 1/37 (2.70%)
+
+bin-libssl-1.0.1e
+./sig/libssl-1.0.1e.sig 528/573 (92.15%)
+./sig/libssl-1.1.0.sig 0/863 (0.00%)
+
+bin-libssl-1.1.0
+./sig/libssl-1.0.1e.sig 2/573 (0.35%)
+./sig/libssl-1.1.0.sig 841/863 (97.45%)
+
