@@ -1,0 +1,18 @@
+bin-libc-2.13
+
+bin-libc-2.23
+
+bin-libcrypto-1.0.1e
+./sig/libcrypto-1.0.1e.sig 77/4836 (1.59%)
+
+bin-libcrypto-1.1.0
+./sig/libcrypto-1.0.1e.sig 66/4836 (1.36%)
+
+bin-libssl-1.0.1e
+./sig/libssl-1.0.1e.sig 509/573 (88.83%)
+./sig/libssl-1.1.0.sig 7/863 (0.81%)
+
+bin-libssl-1.1.0
+./sig/libssl-1.0.1e.sig 9/573 (1.57%)
+./sig/libssl-1.1.0.sig 860/863 (99.65%)
+

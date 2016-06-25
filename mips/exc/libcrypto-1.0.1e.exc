@@ -1,0 +1,55 @@
+DSO_METHOD_dl                                     	00 0000 03E00008000010210020082500200825................................
+DSO_METHOD_win32                                  	00 0000 03E00008000010210020082500200825................................
+DSO_METHOD_vms                                    	00 0000 03E00008000010210020082500200825................................
+DSO_METHOD_beos                                   	00 0000 03E00008000010210020082500200825................................
+
+ENGINE_load_cryptodev                             	00 0000 03E00008002008250020082500200825................................
+ENGINE_load_rsax                                  	00 0000 03E00008002008250020082500200825................................
+ENGINE_load_rdrand                                	00 0000 03E00008002008250020082500200825................................
+ENGINE_load_padlock                               	00 0000 03E00008002008250020082500200825................................
+ENGINE_load_capi                                  	00 0000 03E00008002008250020082500200825................................
+
+ERR_load_CRYPTO_strings                           	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_OBJ_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_BN_strings                               	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_EC_strings                               	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_RSA_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_DSA_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_ECDSA_strings                            	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_DH_strings                               	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_ECDH_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_DSO_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_ENGINE_strings                           	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_BUF_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_BIO_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_RAND_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_EVP_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_ASN1_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_PEM_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_X509_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_X509V3_strings                           	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_CONF_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_PKCS7_strings                            	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_PKCS12_strings                           	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_COMP_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_OCSP_strings                             	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_UI_strings                               	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_CMS_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+ERR_load_TS_strings                               	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
+
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+;final (libcrypto-1.0.1e.pat)
+EVP_md4                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_md5                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_sha                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_whirlpool                                     	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_dss                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_dss1                                          	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_ripemd160                                     	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
+EVP_ecdsa                                         	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
