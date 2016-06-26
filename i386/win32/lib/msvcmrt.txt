@@ -1,0 +1,1 @@
+msvcmrt.lib contains the C run-time library functions. It is not included in this repo due to its huge size. It comes with MS VC++. It comes with MS VC++.    
