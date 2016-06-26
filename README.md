@@ -46,6 +46,8 @@ Generate the pat file
 
 > $./pelf /usr/lib/libc.a libc.pat
 
+For coff lib format use pcf instead of pelf
+
 Generate the sig file from the pat file
 
 > $./sigmake libc.pat libc.sig
