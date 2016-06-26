@@ -1,0 +1,56 @@
+bin-libc-2.13
+./sig/libc-2.13.sig 948/3369 (28.14%)
+./sig/libc-2.22.sig 115/2859 (4.02%)
+./sig/libc-2.23.sig 112/2869 (3.90%)
+
+bin-libc-2.22
+./sig/libc-2.13.sig 115/3369 (3.41%)
+./sig/libc-2.22.sig 777/2859 (27.18%)
+./sig/libc-2.23.sig 752/2869 (26.21%)
+
+bin-libc-2.23
+./sig/libc-2.13.sig 112/3369 (3.32%)
+./sig/libc-2.22.sig 741/2859 (25.92%)
+./sig/libc-2.23.sig 785/2869 (27.36%)
+
+bin-libcrypto-1.0.2h
+./sig/libcrypto-1.0.2h.sig 370/5360 (6.90%)
+
+bin-libm-2.13
+./sig/libm-2.13.sig 34/445 (7.64%)
+./sig/libm-2.22.sig 7/582 (1.20%)
+./sig/libm-2.23.sig 4/600 (0.67%)
+
+bin-libm-2.22
+./sig/libm-2.13.sig 7/445 (1.57%)
+./sig/libm-2.22.sig 50/582 (8.59%)
+./sig/libm-2.23.sig 43/600 (7.17%)
+
+bin-libm-2.23
+./sig/libm-2.13.sig 6/445 (1.35%)
+./sig/libm-2.22.sig 39/582 (6.70%)
+./sig/libm-2.23.sig 49/600 (8.17%)
+
+bin-libpcre-8.38
+./sig/libpcre-8.38.sig 143/150 (95.33%)
+
+bin-libpthread-2.13
+./sig/libpthread-2.13.sig 120/319 (37.62%)
+./sig/libpthread-2.22.sig 26/262 (9.92%)
+./sig/libpthread-2.23.sig 25/258 (9.69%)
+
+bin-libpthread-2.22
+./sig/libpthread-2.13.sig 24/319 (7.52%)
+./sig/libpthread-2.22.sig 84/262 (32.06%)
+./sig/libpthread-2.23.sig 70/258 (27.13%)
+
+bin-libpthread-2.23
+./sig/libpthread-2.13.sig 22/319 (6.90%)
+./sig/libpthread-2.22.sig 69/262 (26.34%)
+./sig/libpthread-2.23.sig 81/258 (31.40%)
+
+bin-libssl-1.0.2h
+./sig/libssl-1.0.2h.sig 611/665 (91.88%)
+
+bin-libxml2-2.9.3
+
