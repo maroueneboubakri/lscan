@@ -1,5 +1,8 @@
 #!/bin/bash
-for lib in ./*.a
+mkdir pat
+mkdir exc
+mkdir sig
+for lib in ./lib/*.a
 do
     libn=`basename "$lib"`
     libn=${libn::-2}
@@ -8,3 +11,6 @@ do
     sed -i '/^;/ d' "$libn.exc"
     sigmake "$libn.pat" "$libn.sig"
 done
+mv *.sig sig/
+mv *.pat pat/
+mv *.exc exc/
