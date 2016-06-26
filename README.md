@@ -46,8 +46,6 @@ Generate the pat file
 
 > $./pelf /usr/lib/libc.a libc.pat
 
-For coff lib format use pcf instead of pelf
-
 Generate the sig file from the pat file
 
 > $./sigmake libc.pat libc.sig
@@ -56,6 +54,9 @@ Optionally Use -n parameter to specify the library name.
 
 Collisions may occurs while generating the sig file. In this case a libc.exc file will be created. To resolve the conflicts you must edit the .exc and add '+' at the start of the line to keep a module or '-' if you are not sure about the selection. Do nothing if you want to exclue all the modules. After resolving the conflicts run the above command again. Finnaly copy the libc.sig file to lscan's sig folder.
 
+For coff lib format use pcf instead of pelf
+
+> $./pcf libcmt.lib libcmt.pat
 
 ## Changelog
 
