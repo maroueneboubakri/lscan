@@ -318,12 +318,14 @@ def parse_binary_file(binfile):
 	fd.close()	
 	if raw[:4] == b'\x7f\x45\x4c\x46':
 		imgbase, segs, funcs = parse_elf(binfile)		
+		format = 'ELF'
 	elif raw[:2] == b'\x4d\x5a':	
-		 imgbase, segs, funcs = parse_pe(binfile)
+		imgbase, segs, funcs = parse_pe(binfile)
+		format = 'PE'
 	else:
 		sys.stderr.write('Binary file not supported')
 		sys.exit(1)
-	return raw, imgbase, segs, funcs
+	return raw, format, imgbase, segs, funcs
 
 		
 
@@ -839,6 +841,7 @@ def identify_functions(node, buf, debug=False):
 					if True:
 						# matches[hex(ffcn.offset+match.start())] = ffcn.name						
 						matches[ffcn.name] = hex(ffcn.offset+match.start())	
+
 										
 def lscan(sigfile, binfile, debug = False, dump = False):
 	'''
@@ -854,7 +857,7 @@ def lscan(sigfile, binfile, debug = False, dump = False):
 	elif os.path.isdir(sigfile):
 		sigfiles.extend([os.path.join(sigfile,fn) for fn in next(os.walk(sigfile))[2]])
 	# read the binary file
-	buf, imgbase, segs, funcs =  parse_binary_file(binfile)
+	buf, format, imgbase, segs, funcs =  parse_binary_file(binfile)
 	# print "Total functions in binary %d"%len(fcns)	
 	for sigf in sigfiles:
 		matches.clear()
@@ -869,10 +872,14 @@ def lscan(sigfile, binfile, debug = False, dump = False):
 		# print the result
 		if debug:
 			for fn in matches:
-				for seg in segs:
-					if seg.addr + int(matches[fn],16) < seg.addr + seg.size:
-						print "\t0x%x: %s"%(seg.addr + int(matches[fn],16), fn)
-						break				
+				if format == 'ELF':
+					for seg in segs:
+						if seg.addr + int(matches[fn],16) < seg.addr + seg.size:
+							print "\t0x%x: %s"%(seg.addr + int(matches[fn],16), fn)
+							break				
+				elif format == 'PE':										
+					print "\t0x%x: %s"%(imgbase + int(matches[fn],16), fn)
+
 	
 if __name__ == "__main__":
 	
@@ -887,7 +894,7 @@ if __name__ == "__main__":
 	opts, args = pars.parse_args()
 
 	if not opts.binfile:
-		pars.error('No ELF file given')
+		pars.error('No binary file given')
 		
 	if not opts.sigfile and not opts.sigdir:
 		pars.error('Signature File/Folder not given')
