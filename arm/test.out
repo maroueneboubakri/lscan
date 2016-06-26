@@ -21,6 +21,22 @@ bin-libcrypto-1.1.0
 ./sig/libcrypto-1.0.1e.sig 7/4518 (0.15%)
 ./sig/libcrypto-1.1.0.sig 1/37 (2.70%)
 
+bin-libm-2.13
+./sig/libm-2.13.sig 26/318 (8.18%)
+./sig/libm-2.22.sig 0/339 (0.00%)
+
+bin-libm-2.22
+./sig/libm-2.13.sig 0/318 (0.00%)
+./sig/libm-2.22.sig 26/339 (7.67%)
+
+bin-libpthread-2.13
+./sig/libpthread-2.13.sig 66/260 (25.38%)
+./sig/libpthread-2.22.sig 4/273 (1.47%)
+
+bin-libpthread-2.22
+./sig/libpthread-2.13.sig 4/260 (1.54%)
+./sig/libpthread-2.22.sig 67/273 (24.54%)
+
 bin-libssl-1.0.1e
 ./sig/libssl-1.0.1e.sig 528/573 (92.15%)
 ./sig/libssl-1.1.0.sig 0/863 (0.00%)
