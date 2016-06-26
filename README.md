@@ -7,7 +7,7 @@ lscan uses FLIRT (Fast Library Identification and Recognition Technology) signat
 ## Install
 
 
-If you want to use lscan, you have to install [pyelftools](https://github.com/eliben/pyelftools) first.
+If you want to use lscan, you have to install [pyelftools](https://github.com/eliben/pyelftools) and [pefile](https://github.com/erocarrera/pefile) first.
 
 After pyelftools is installed, lscan can be used as a standalone tool
 
