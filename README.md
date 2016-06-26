@@ -36,7 +36,7 @@ Options:
 
 > $python lscan.py -s i386/sig/libpthread-2.23.sig -f i386/bin/bin-libpthread-2.23 -v
 
-
+> $python lscan.py -f i386/win32/bin/bin-libcmt.exe -s i386/win32/sig/msvcmrt.sig
 
 ## Updating sig database
 
@@ -58,6 +58,10 @@ Collisions may occurs while generating the sig file. In this case a libc.exc fil
 
 
 ## Changelog
+
+**Version 0.5 (2016-06-26)**
+- Added support to PE binaries
+
 
 **Version 0.4 (2016-06-19)**
 - Bug fix: handling tail bytes, type mismatch in comparison
