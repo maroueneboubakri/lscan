@@ -1,3 +1,4 @@
+
 DSO_METHOD_dl                                     	00 0000 03E00008000010210020082500200825................................
 DSO_METHOD_win32                                  	00 0000 03E00008000010210020082500200825................................
 DSO_METHOD_vms                                    	00 0000 03E00008000010210020082500200825................................
@@ -37,14 +38,6 @@ ERR_load_UI_strings                               	12 E0CC 27BDFFE0AFB000183C10.
 ERR_load_CMS_strings                              	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
 ERR_load_TS_strings                               	12 E0CC 27BDFFE0AFB000183C10....8E04....AFBF001C........0020082510400004
 
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
-;final (libcrypto-1.0.1e.pat)
 EVP_md4                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
 EVP_md5                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C
 EVP_sha                                           	02 5733 8C82000C00A02021........00402821........8C84000C........8C84000C

@@ -8,7 +8,9 @@ do
     libn=${libn::-2}
     pelf "$lib" "$libn.pat"    
     sigmake "$libn.pat" "$libn.sig"
-    sed -i '/^;/ d' "$libn.exc"
+    if [ -f "$libn.exc" ]; then
+	    sed -i '/^;/ d' "$libn.exc"
+    fi
     sigmake "$libn.pat" "$libn.sig"
 done
 mv *.sig sig/
