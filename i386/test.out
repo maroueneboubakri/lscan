@@ -13,47 +13,65 @@ bin-glib2-2.46
 ./sig/libglib2-2.44.sig 76/2133 (3.56%)
 ./sig/libglib2-2.46.sig 1014/2135 (47.49%)
 
+bin-libc-2.13
+./sig/libc-2.13.sig 996/3467 (28.73%)
+./sig/libc-2.17.sig 29/3512 (0.83%)
+./sig/libc-2.22.sig 28/2861 (0.98%)
+./sig/libc-2.23.sig 29/2862 (1.01%)
+
 bin-libc-2.17
+./sig/libc-2.13.sig 17/3467 (0.49%)
 ./sig/libc-2.17.sig 1038/3512 (29.56%)
 ./sig/libc-2.22.sig 132/2861 (4.61%)
 ./sig/libc-2.23.sig 128/2862 (4.47%)
 
 bin-libc-2.22
+./sig/libc-2.13.sig 17/3467 (0.49%)
 ./sig/libc-2.17.sig 130/3512 (3.70%)
 ./sig/libc-2.22.sig 798/2861 (27.89%)
 ./sig/libc-2.23.sig 490/2862 (17.12%)
 
 bin-libc-2.23
+./sig/libc-2.13.sig 17/3467 (0.49%)
 ./sig/libc-2.17.sig 105/3512 (2.99%)
 ./sig/libc-2.22.sig 480/2861 (16.78%)
 ./sig/libc-2.23.sig 795/2862 (27.78%)
 
 bin-libcrypto-0.9.8e
 ./sig/libcrypto-0.9.8e.sig 438/3357 (13.05%)
-./sig/libcrypto-1.0.1e.sig 1/4764 (0.02%)
+./sig/libcrypto-1.0.1e.sig 364/4896 (7.43%)
 ./sig/libcrypto-1.0.2h.sig 6/4945 (0.12%)
 
 bin-libcrypto-1.0.1e
-./sig/libcrypto-0.9.8e.sig 49/3357 (1.46%)
-./sig/libcrypto-1.0.1e.sig 2866/4764 (60.16%)
-./sig/libcrypto-1.0.2h.sig 52/4945 (1.05%)
+./sig/libcrypto-0.9.8e.sig 1/3357 (0.03%)
+./sig/libcrypto-1.0.1e.sig 691/4896 (14.11%)
+./sig/libcrypto-1.0.2h.sig 1/4945 (0.02%)
 
 bin-libcrypto-1.0.2h
 ./sig/libcrypto-0.9.8e.sig 0/3357 (0.00%)
-./sig/libcrypto-1.0.1e.sig 47/4764 (0.99%)
+./sig/libcrypto-1.0.1e.sig 66/4896 (1.35%)
 ./sig/libcrypto-1.0.2h.sig 3190/4945 (64.51%)
 
+bin-libm-2.13
+./sig/libm-2.13.sig 11/399 (2.76%)
+./sig/libm-2.17.sig 8/462 (1.73%)
+./sig/libm-2.22.sig 8/478 (1.67%)
+./sig/libm-2.23.sig 5/484 (1.03%)
+
 bin-libm-2.17
+./sig/libm-2.13.sig 4/399 (1.00%)
 ./sig/libm-2.17.sig 19/462 (4.11%)
 ./sig/libm-2.22.sig 12/478 (2.51%)
 ./sig/libm-2.23.sig 7/484 (1.45%)
 
 bin-libm-2.22
+./sig/libm-2.13.sig 3/399 (0.75%)
 ./sig/libm-2.17.sig 10/462 (2.16%)
 ./sig/libm-2.22.sig 18/478 (3.77%)
 ./sig/libm-2.23.sig 6/484 (1.24%)
 
 bin-libm-2.23
+./sig/libm-2.13.sig 1/399 (0.25%)
 ./sig/libm-2.17.sig 7/462 (1.52%)
 ./sig/libm-2.22.sig 8/478 (1.67%)
 ./sig/libm-2.23.sig 7/484 (1.45%)
@@ -70,37 +88,46 @@ bin-libpcre-8.37
 
 bin-libpcre-8.38
 ./sig/libpcre-8.32.sig 0/147 (0.00%)
-./sig/libpcre-8.37.sig 22/153 (14.38%)
-./sig/libpcre-8.38.sig 23/157 (14.65%)
+./sig/libpcre-8.37.sig 0/153 (0.00%)
+./sig/libpcre-8.38.sig 0/157 (0.00%)
+
+bin-libpthread-2.13
+./sig/libpthread-2.13.sig 115/322 (35.71%)
+./sig/libpthread-2.17.sig 0/319 (0.00%)
+./sig/libpthread-2.22.sig 0/265 (0.00%)
+./sig/libpthread-2.23.sig 0/262 (0.00%)
 
 bin-libpthread-2.17
+./sig/libpthread-2.13.sig 5/322 (1.55%)
 ./sig/libpthread-2.17.sig 319/319 (100.00%)
 ./sig/libpthread-2.22.sig 264/265 (99.62%)
 ./sig/libpthread-2.23.sig 261/262 (99.62%)
 
 bin-libpthread-2.22
+./sig/libpthread-2.13.sig 1/322 (0.31%)
 ./sig/libpthread-2.17.sig 311/319 (97.49%)
 ./sig/libpthread-2.22.sig 265/265 (100.00%)
 ./sig/libpthread-2.23.sig 262/262 (100.00%)
 
 bin-libpthread-2.23
+./sig/libpthread-2.13.sig 1/322 (0.31%)
 ./sig/libpthread-2.17.sig 311/319 (97.49%)
 ./sig/libpthread-2.22.sig 265/265 (100.00%)
 ./sig/libpthread-2.23.sig 262/262 (100.00%)
 
 bin-libssl-0.9.8e
 ./sig/libssl-0.9.8e.sig 397/461 (86.12%)
-./sig/libssl-1.0.1e.sig 0/558 (0.00%)
+./sig/libssl-1.0.1e.sig 0/546 (0.00%)
 ./sig/libssl-1.0.2h.sig 4/663 (0.60%)
 
 bin-libssl-1.0.1e
 ./sig/libssl-0.9.8e.sig 0/461 (0.00%)
-./sig/libssl-1.0.1e.sig 514/558 (92.11%)
-./sig/libssl-1.0.2h.sig 3/663 (0.45%)
+./sig/libssl-1.0.1e.sig 509/546 (93.22%)
+./sig/libssl-1.0.2h.sig 10/663 (1.51%)
 
 bin-libssl-1.0.2h
 ./sig/libssl-0.9.8e.sig 0/461 (0.00%)
-./sig/libssl-1.0.1e.sig 0/558 (0.00%)
+./sig/libssl-1.0.1e.sig 9/546 (1.65%)
 ./sig/libssl-1.0.2h.sig 602/663 (90.80%)
 
 bin-libstdc++-4.9.2
