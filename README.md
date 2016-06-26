@@ -32,9 +32,10 @@ Options:
 
 ### Example:
 
-> $python sigmatch.py -S sigdb -f test/bin1 -v
+> $python lscan.py -S i386/sig -f i386/bin/bin-libc-2.23
 
-> $python sigmatch.py -s sigdb/libcrypt-2.23.sig -f test/bin2 -v
+> $python lscan.py -s i386/sig/libpthread-2.23.sig -f i386/bin/bin-libpthread-2.23 -v
+
 
 
 ## Updating sig database
