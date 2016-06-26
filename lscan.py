@@ -7,7 +7,7 @@ lscan uses FLIRT (Fast Library Identification and Recognition Technology) signat
 '''
 __author__ = "Marouene Noubakri"
 __copyright__ = "Copyright 2016, Semester Project"
-__version__ = "0.4"
+__version__ = "0.5"
 __email__ = "marouene.boubakri@eurecom.fr"
 __status__ = "Development"
 
@@ -22,6 +22,7 @@ from elftools.common.exceptions import ELFError
 import optparse
 import os
 import re
+import pefile
 
 # max function name length
 MAX_FLIRT_FUNCTION_NAME = 1024
@@ -227,34 +228,75 @@ class BinarySegment:
 	addr = 0
 
 
-def parse_binary_file(binfile):
-	'''Parse an executable and return the list of sections,
-	the symbol table and the raw content
-	Args:
-		binfile (str): path to a binary file
-	Returns:
-		fcns: binary functions list from symbol table
-		segs: binary segments list
-		buf: binary's raw content
-	'''
-	fcns = []
+def parse_pe(pefilepath):
+        '''Parses a PE executable and return the list of sections,
+        the import table and the raw content
+        Args:
+                pefile (str): path to a pe binary file
+        Returns:
+                imgbase: image base
+		segs: segment list
+		funcs: import table
+        '''
+	funcs = []
 	segs = []
+	pe =  pefile.PE(pefilepath, fast_load=True)
 	try:
-		with open(binfile, 'rb') as f:
+		for sec in pe.sections:
+			seg = BinarySegment()
+			seg.addr = sec.VirtualAddress
+			seg.size = sec.SizeOfRawData 
+			seg.offset = 0
+			segs.append(seg)
+		#needed ti calculate function address in virtual space
+		imgbase = pe.OPTIONAL_HEADER.ImageBase
+		#get imports
+		'''pe.parse_data_directories()
+		for entry in pe.DIRECTORY_ENTRY_IMPORT:
+			for imp in entry.imports:
+				fcn = BinaryFunction()
+       	                 	fcn.name = imp.name
+       	                 	fcn.offset = hex(imp.address)
+	      	                fcn.size = 0
+       		                funcs.append(fcn)
+		'''
+	except pefile.PEFormatError:
+                sys.stderr.write('Unable to parse PE file')
+                sys.exit(1)
+
+	return imgbase, segs, funcs
+
+
+def parse_elf(elffile):
+	'''Parses an ELF executable and return the image base, list of sections,
+	the symbol table
+	Args:
+		elfffile (str): path to an ELF file
+	Returns:
+		imgbase: image base
+		segs: binary segments list
+		funcs: binary functions list from symbol table		
+	'''
+	funcs = []
+	segs = []
+	#imgbase not needed here, function's virtual address is calculated based on segments(address, offset, size)
+	imgbase = 0
+	try:
+		with open(elffile, 'rb') as f:
 			elffile = ELFFile(f)
 			sec = elffile.get_section_by_name('.symtab')
 			if not sec:
 				sys.stderr.write("No symbol table found bin binary\n")
-			if isinstance(sec, SymbolTableSection):
+			'''if isinstance(sec, SymbolTableSection):
 				for i in range(1, sec.num_symbols() + 1):
 					if sec.get_symbol(i)["st_info"]["type"] == "STT_FUNC":
 						fcn = BinaryFunction()
 						fcn.name = sec.get_symbol(i).name
 						fcn.offset = sec.get_symbol(i)["st_value"]
 						fcn.size = sec.get_symbol(i)["st_size"]
-						fcns.append(fcn)
-			f.seek(0)
-			buf = f.read()
+						funcs.append(fcn)
+			'''
+			f.seek(0)			
 			for segment in elffile.iter_segments():
 				if segment['p_type'] == 'PT_LOAD':
 					seg = BinarySegment()
@@ -263,10 +305,27 @@ def parse_binary_file(binfile):
 					seg.offset = segment['p_offset']
 					segs.append(seg)
 	except ELFError:
-		sys.stderr.write('Unable to read bin file')
+		sys.stderr.write('Unable to parse ELF file')
 		sys.exit(1)
-	return fcns, buf, segs
+	return imgbase, segs, funcs
 
+
+
+
+def parse_binary_file(binfile):	
+	fd = open(binfile, 'rb')
+	raw = fd.read()
+	fd.close()	
+	if raw[:4] == b'\x7f\x45\x4c\x46':
+		imgbase, segs, funcs = parse_elf(binfile)		
+	elif raw[:2] == b'\x4d\x5a':	
+		 imgbase, segs, funcs = parse_pe(binfile)
+	else:
+		sys.stderr.write('Binary file not supported')
+		sys.exit(1)
+	return raw, imgbase, segs, funcs
+
+		
 
 def next_byte(buf):
 	'''Read one byte from a flirt signature file'''
@@ -783,7 +842,7 @@ def identify_functions(node, buf, debug=False):
 										
 def lscan(sigfile, binfile, debug = False, dump = False):
 	'''
-	match a binary file against a signature file
+	This is the entrypoint. Match a binary file against a signature file
 	Args:
 		sigfile	(str)- path to signature file
 		binfile	(str)- path to binary file
@@ -795,7 +854,7 @@ def lscan(sigfile, binfile, debug = False, dump = False):
 	elif os.path.isdir(sigfile):
 		sigfiles.extend([os.path.join(sigfile,fn) for fn in next(os.walk(sigfile))[2]])
 	# read the binary file
-	fcns, buf, segs =  parse_binary_file(binfile)
+	buf, imgbase, segs, funcs =  parse_binary_file(binfile)
 	# print "Total functions in binary %d"%len(fcns)	
 	for sigf in sigfiles:
 		matches.clear()
