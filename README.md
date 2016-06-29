@@ -9,7 +9,7 @@ lscan uses FLIRT (Fast Library Identification and Recognition Technology) signat
 
 If you want to use lscan, you have to install [pyelftools](https://github.com/eliben/pyelftools) and [pefile](https://github.com/erocarrera/pefile) first.
 
-After pyelftools is installed, lscan can be used as a standalone tool
+After pyelftools and pefile are installed, lscan can be used as a standalone tool
 
 > $python lscan.py  [-h] [-f BINFILE] [-s SIGFILE] [-S SIGDIR] [-v]
 
@@ -40,7 +40,7 @@ Options:
 
 ## Updating sig database
 
-To generate sig files and add them to lscan fig database you need IDA flair tool. 
+To generate sig files and add them to lscan fig database you need [Hex-Rays flair toolkit](https://www.hex-rays.com/products/ida/support/ida/flair69.zip). 
 
 Generate the pat file 
 
