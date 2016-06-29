@@ -832,10 +832,14 @@ def identify_functions(node, buf, debug=False):
 								# matches[hex(ffcn.offset+match.start())] = ffcn.name
 								matches[ffcn.name] = hex(ffcn.offset+match.start())	
 							break
-#				if module.ref_fcns:
-#					print "Module has %d ref_fcns to match"%len(module.ref_fcns)
-#					for ref_fcn in module.ref_fcns:
-#						print ref_fcn.name
+				if module.ref_fcns:
+					for ref_fcn in module.ref_fcns:
+						opcode = ord(buf[match.start()+ ref_fcn.offset-1])
+						'''
+						opcode = 0xe8 = CALL, opcode = 0xe9 = JMP ...
+						At this level we must be aware of the binary target architecture to parse the refernced function address. 
+						Since lscan apply the signature on raw binary content, handling refernced functions is  
+						'''
 				# great the buffer belongs to a known module so let's read function details from the module and append them to the final result
 				for ffcn in module.pub_fcns:		
 					if True:
