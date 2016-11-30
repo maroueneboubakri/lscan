@@ -38,6 +38,12 @@ Options:
 
 > $python lscan.py -f i386/win32/bin/bin-libcmt.exe -s i386/win32/sig/msvcmrt.sig
 
+
+
+## Demo
+[Reverse Engineer a stripped binary with lscan and IDApro](https://github.com/maroueneboubakri/lscan/wiki/Reverse-Engineer-a-stripped-binary-with-lscan-and-IDApro). 
+
+
 ## Updating sig database
 
 To generate sig files and add them to lscan fig database you need [Hex-Rays flair toolkit](https://www.hex-rays.com/products/ida/support/ida/flair69.zip). 
