@@ -5,7 +5,7 @@ It helps recognizing common functions in compiled binaries and determining libra
 lscan uses FLIRT (Fast Library Identification and Recognition Technology) signatures to perform library identification.
 
 '''
-__author__ = "Marouene Noubakri"
+__author__ = "Marouene Boubakri"
 __copyright__ = "Copyright 2016, Semester Project"
 __version__ = "0.5"
 __email__ = "marouene.boubakri@eurecom.fr"
