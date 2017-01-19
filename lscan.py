@@ -323,8 +323,9 @@ def parse_binary_file(binfile):
         imgbase, segs, funcs = parse_pe(binfile)
         format = 'PE'
     else:
-        sys.stderr.write('Binary file not supported')
-        sys.exit(1)
+        sys.stderr.write('ELF or PE not recognized. The file will be analyzed as a RAW binary object...\n')
+        imgbase, segs, funcs = None, None, None
+        format = 'RAW'
     return raw, format, imgbase, segs, funcs
 
 
