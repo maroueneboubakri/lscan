@@ -876,14 +876,27 @@ def lscan(sigfile, binfile, debug = False, dump = False):
         print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
         # print the result
         if debug:
+            matches_seen = set()
             for fn in matches:
+                if matches[fn] not in matches_seen:
+                    matches_seen.add(matches[fn])
+                    string_head = "\033[0;32m[+]\033[0m"
+                else:
+                    string_head = "\033[0;31m[-]\033[0m"
                 if format == 'ELF':
+                    found = False
                     for seg in segs:
                         if seg.addr + int(matches[fn],16) < seg.addr + seg.size:
-                            print "\t0x%x: %s"%(seg.addr + int(matches[fn],16), fn)
+                            found = True
+                            print "\t%s 0x%08x %s"%(string_head, seg.addr + int(matches[fn],16), fn)
                             break
+                        if not found:
+                            print "\t%s 0x%x: %s  \033[0;33m<- not within a segment\033[0m"%(string_head, imgbase + int(matches[fn],16), fn)
                 elif format == 'PE':
-                    print "\t0x%x: %s"%(imgbase + int(matches[fn],16), fn)
+                    print "\t%s 0x%x: %s"%(string_head, imgbase + int(matches[fn],16), fn)
+                elif format == 'RAW':
+                    print "\t%s 0x%x: %s"%(string_head, int(matches[fn],16), fn)
+
 
 if __name__ == "__main__":
 
