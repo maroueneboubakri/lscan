@@ -168,21 +168,22 @@ class BinaryFunction:
 
 
 class FlirtHeader:
-    magic = ""
-    version = 0
-    arch = 0
-    file_types = 0
-    os_types = 0
-    app_types = 0
-    features = 0
-    old_n_fcns = 0
-    crc16 = 0
-    ctype = ""
-    lib_name_len = 0
-    ctypes_crc16 = 0
-    n_fcns = 0
-    pat_size = 0
-    lib_name = ""
+    magic = ""                # char a[6]
+    version = 0               # uint8_t
+    arch = 0                  # uint8_t
+    file_types = 0            # uint32_t
+    os_types = 0              # uint16_t
+    app_types = 0             # uint16_t
+    features = 0              # uint8_t
+    old_n_fcns = 0            # uint16_t
+    crc16 = 0                 # uint16_t
+    ctype = ""                # char a[12]
+    lib_name_len = 0          # uint8_t
+    ctypes_crc16 = 0          # uint16_t
+    n_fcns = 0                # uint32_t # introduced with flirt version 6
+    pat_size = 0              # uint16_t # introduced with flirt version 8
+    ctype_unknown_field = 0   # uint16_t # introduced with flirt version 10
+    lib_name = ""             # char a[]
     num_fcns = 0
 
 
@@ -709,6 +710,8 @@ def parse_signature_file(file):
         header.n_fcns = next_word(buf)
     if header.version >= 8:
         header.pat_size = next_short(buf)
+    if header.version >= 10:
+        header.ctype_unknown_field = next_short(buf)
     header.lib_name = buf.read(header.lib_name_length)
     # read raw content
     buf = buf.read(sigfile.tell() - buf.tell())
