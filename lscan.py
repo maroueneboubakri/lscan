@@ -678,6 +678,15 @@ def dump_header(header):
     print "lib name len: %s"%header.lib_name_length
     print "ctypes crc16: %04x"%header.ctypes_crc16
 
+    if header.version >= 6:
+        print "n functions: %08x"%header.n_fcns
+    if header.version >= 8:
+        print "pattern size: %d"%header.pat_size
+    if header.version >= 10:
+        print "unknown v10: %02x"%header.ctype_unknown_field
+
+    print "lib name: %s"%header.lib_name
+
 def parse_signature_file(file):
     '''Parse a flirt signature file
     Args:
@@ -833,22 +842,21 @@ def identify_functions(node, buf, debug=False):
                         if ord(buf[match.start()+ 32 + module.crc_len + tail_byte.offset]) == tail_byte.value:
                             # Tail bytes are equal, great, the buffer belongs to a known module so let's read function details from the module and append them to the final result
                             for ffcn in module.pub_fcns:
-                                # matches[hex(ffcn.offset+match.start())] = ffcn.name
-                                matches[ffcn.name] = hex(ffcn.offset+match.start())
+                                addr = hex(ffcn.offset+match.start())
+                                if addr in matches:
+                                    matches[addr].add(ffcn.name)
+                                else:
+                                    matches[addr] = set([ffcn.name])
                             break
-                if module.ref_fcns:
-                    for ref_fcn in module.ref_fcns:
-                        opcode = ord(buf[match.start()+ ref_fcn.offset-1])
-                        '''
-                        opcode = 0xe8 = CALL, opcode = 0xe9 = JMP ...
-                        At this level we must be aware of the binary target architecture to parse the refernced function address.
-                        Since lscan apply the signature on raw binary content, handling refernced functions is
-                        '''
+
                 # great the buffer belongs to a known module so let's read function details from the module and append them to the final result
                 for ffcn in module.pub_fcns:
                     if True:
-                        # matches[hex(ffcn.offset+match.start())] = ffcn.name
-                        matches[ffcn.name] = hex(ffcn.offset+match.start())
+                        addr = hex(ffcn.offset+match.start())
+                        if addr in matches:
+                            matches[addr].add(ffcn.name)
+                        else:
+                            matches[addr] = set([ffcn.name])
 
 
 def lscan(sigfile, binfile, debug = False, dump = False):
@@ -879,26 +887,24 @@ def lscan(sigfile, binfile, debug = False, dump = False):
         print "%s %d/%d (%s%%)"%(sigf, len(matches), header.num_fcns, "{:.2f}".format(100 * float(len(matches))/float(header.num_fcns)))
         # print the result
         if debug:
-            matches_seen = set()
-            for fn in matches:
-                if matches[fn] not in matches_seen:
-                    matches_seen.add(matches[fn])
+            for addr in matches:
+                if len(matches[addr]) == 1:
                     string_head = "\033[0;32m[+]\033[0m"
                 else:
                     string_head = "\033[0;31m[-]\033[0m"
                 if format == 'ELF':
                     found = False
                     for seg in segs:
-                        if seg.addr + int(matches[fn],16) < seg.addr + seg.size:
+                        if seg.addr + int(addr,16) < seg.addr + seg.size:
                             found = True
-                            print "\t%s 0x%08x %s"%(string_head, seg.addr + int(matches[fn],16), fn)
+                            print "\t%s 0x%08x %s"%(string_head, seg.addr + int(addr,16), ', '.join(matches[addr]))
                             break
                         if not found:
-                            print "\t%s 0x%x: %s  \033[0;33m<- not within a segment\033[0m"%(string_head, imgbase + int(matches[fn],16), fn)
+                            print "\t%s 0x%x: %s  \033[0;33m<- not within a segment\033[0m"%(string_head, imgbase + int(addr,16), ', '.join(matches[addr]))
                 elif format == 'PE':
-                    print "\t%s 0x%x: %s"%(string_head, imgbase + int(matches[fn],16), fn)
+                    print "\t%s 0x%x: %s"%(string_head, imgbase + int(addr,16), ', '.join(matches[addr]))
                 elif format == 'RAW':
-                    print "\t%s 0x%x: %s"%(string_head, int(matches[fn],16), fn)
+                    print "\t%s 0x%x: %s"%(string_head, int(addr,16), ', '.join(matches[addr]))
 
 
 if __name__ == "__main__":
