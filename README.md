@@ -70,6 +70,10 @@ For coff lib format use pcf instead of pelf
 
 ## Changelog
 
+**Version 0.6 (2017-01-19)**
+- Add support for FLIRT signatures >= v10
+
+
 **Version 0.5 (2016-06-26)**
 - Added support to PE binaries
 
