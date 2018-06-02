@@ -43,6 +43,10 @@ Options:
 ## Demo
 [Reverse Engineer a stripped binary with lscan and IDApro](https://github.com/maroueneboubakri/lscan/wiki/Reverse-Engineer-a-stripped-binary-with-lscan-and-IDApro). 
 
+## A community driven collection of IDA FLIRT signature
+
+- [Datbase 1](https://github.com/Maktm/FLIRTDB)
+- [Datbase 2](https://github.com/push0ebp/sig-database)
 
 ## Updating sig database
 
