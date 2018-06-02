@@ -7,7 +7,7 @@ lscan uses FLIRT (Fast Library Identification and Recognition Technology) signat
 '''
 __author__ = "Marouene Boubakri"
 __copyright__ = "Copyright 2016, Semester Project"
-__version__ = "0.5"
+__version__ = "0.6"
 __email__ = "marouene.boubakri@eurecom.fr"
 __status__ = "Development"
 
