@@ -45,8 +45,8 @@ Options:
 
 ## A community driven collection of IDA FLIRT signature
 
-- [Datbase 1](https://github.com/Maktm/FLIRTDB)
-- [Datbase 2](https://github.com/push0ebp/sig-database)
+- [Database 1](https://github.com/Maktm/FLIRTDB)
+- [Database 2](https://github.com/push0ebp/sig-database)
 
 ## Updating sig database
 
